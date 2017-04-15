@@ -73,16 +73,9 @@ void UKF::NormAng(double *ang) {
  * either radar or laser.
  */
 void UKF::ProcessMeasurement(MeasurementPackage measurement_pack) {
-  /**
-  TODO:
-
-  Complete this function! Make sure you switch between lidar and radar
-  measurements.
-  */
   // CTRV Model, x_ is [px, py, vel, ang, ang_rate]
   if (!is_initialized_) {
-	  
-	// Initial covariance matrix
+  // Initial covariance matrix
     P_ << 1, 0, 0, 0, 0,
           0, 1, 0, 0, 0,
           0, 0, 1, 0, 0,
@@ -91,27 +84,26 @@ void UKF::ProcessMeasurement(MeasurementPackage measurement_pack) {
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       // Convert radar from polar to cartesian coordinates and initialize state.
       float rho = measurement_pack.raw_measurements_[0]; // range
-	  float phi = measurement_pack.raw_measurements_[1]; // bearing
-	  float rho_dot = measurement_pack.raw_measurements_[2]; // velocity of rho
-	  // Coordinates convertion from polar to cartesian
-	  float px = rho * cos(phi); 
-	  float py = rho * sin(phi);
-	  float vx = rho_dot * cos(phi);
+      float phi = measurement_pack.raw_measurements_[1]; // bearing
+      float rho_dot = measurement_pack.raw_measurements_[2]; // velocity of rho
+      // Coordinates convertion from polar to cartesian
+      float px = rho * cos(phi); 
+      float py = rho * sin(phi);
+      float vx = rho_dot * cos(phi);
       float vy = rho_dot * sin(phi);
       float v  = sqrt(vx * vx + vy * vy);
-	  x_ << px, py, v, 0, 0;
+      x_ << px, py, v, 0, 0;
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       // We don't know velocities from the first measurement of the LIDAR, so, we use zeros
       x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0, 0;
+      // Deal with the special case initialisation problems
       if (fabs(x_(0)) < EPS and fabs(x_(1)) < EPS){
 		x_(0) = EPS;
 		x_(1) = EPS;
 	  }
     }
-    // Deal with the special case initialisation problems
     
-	
     // Initialize weights
     weights_(0) = lambda_ / (lambda_ + n_aug_);
     for (int i = 1; i < weights_.size(); i++) {
@@ -196,12 +188,12 @@ void UKF::Prediction(double delta_t) {
     double px_p, py_p;
     // Avoid division by zero
     if (fabs(yawd) > EPS) {	
-		double v_yawd = v/yawd;
+	double v_yawd = v/yawd;
         px_p = p_x + v_yawd * (sin(arg) - sin_yaw);
         py_p = p_y + v_yawd * (cos_yaw - cos(arg) );
     }
     else {
-		double v_delta_t = v*delta_t;
+	double v_delta_t = v*delta_t;
         px_p = p_x + v_delta_t*cos_yaw;
         py_p = p_y + v_delta_t*sin_yaw;
     }
