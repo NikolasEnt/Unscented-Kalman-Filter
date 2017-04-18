@@ -17,7 +17,12 @@ The project was created with the Udacity [Starter Code](https://github.com/udaci
 
 ![input 1 results](readme_img/plot1.png)
 
+RMSE = [0.0758215 0.0842188 0.632344 0.580668]
+
 ![input 2 results](readme_img/plot2.png)
+
+RMSE = [0.194559 0.189894 0.518945 0.507547]
+
 
 ## Dependencies
 
