@@ -14,15 +14,19 @@ The project was created with the Udacity [Starter Code](https://github.com/udaci
 - `results`  a directory with output files
 
 ## Results 
-
+1. Input file: *sample-laser-radar-measurement-data-1.txt*
 ![input 1 results](readme_img/plot1.png)
 
-RMSE = [0.0758215 0.0842188 0.632344 0.580668]
+RMSE = [0.0758215, 0.0842188, 0.632344, 0.580668]
 
+Threshold: RMSE <= [0.09, 0.09, 0.65, 0.65]
+
+2. Input file: *sample-laser-radar-measurement-data-2.txt*
 ![input 2 results](readme_img/plot2.png)
 
 RMSE = [0.194559 0.189894 0.518945 0.507547]
 
+Threshold: RMSE <= [0.20, 0.20, 0.55, 0.55]
 
 ## Dependencies
 
