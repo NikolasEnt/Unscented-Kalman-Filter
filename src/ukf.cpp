@@ -14,6 +14,7 @@ using std::vector;
  * Initializes Unscented Kalman filter
  */
 UKF::UKF() {
+  is_initialized_ = false;
   // if this is false, laser measurements will be ignored (except during init)
   use_laser_ = true;
   // if this is false, radar measurements will be ignored (except during init)
@@ -286,10 +287,10 @@ void UKF::UpdateUKF(MeasurementPackage meas_package, MatrixXd Zsig, int n_z){
   }
   // Add measurement noise covariance matrix
   MatrixXd R = MatrixXd(n_z, n_z);
-  if (n_z == 3){ // Radar
+  if (meas_package.sensor_type_ == MeasurementPackage::RADAR){ // Radar
     R = R_radar_;
   }
-  else if (n_z == 2){ // Lidar
+  else if (meas_package.sensor_type_ == MeasurementPackage::LASER){ // Lidar
     R = R_lidar_;
   }
   S = S + R;
